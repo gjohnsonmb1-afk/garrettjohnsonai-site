@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garrett Johnson | AI for Business Owners</title>
+<meta name="description" content="I test AI tools for small business owners so you don't have to pay to find out what works. Real setups, real costs, honest verdicts.">
+<meta property="og:title" content="Garrett Johnson | AI for Business Owners">
+<meta property="og:description" content="I test AI tools for small business owners so you don't have to pay to find out what works.">
+<meta property="og:image" content="og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+@font-face { font-family: "Cabinet Grotesk"; src: url("fonts/CabinetGrotesk-Black.otf"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Cabinet Grotesk"; src: url("fonts/CabinetGrotesk-Extrabold.otf"); font-weight: 800; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("fonts/Archivo-Regular.ttf"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("fonts/Archivo-Medium.ttf"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("fonts/Archivo-SemiBold.ttf"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("fonts/Archivo-Bold.ttf"); font-weight: 700; font-display: swap; }
+
+:root {
+  --ground: #0f0d0a;
+  --panel: #181410;
+  --panel-hi: #251d15;
+  --line: #342a1f;
+  --line-soft: #241d15;
+  --amber: #f2a94e;
+  --amber-lt: #ffc25e;
+  --ink: #f7f3ec;
+  --mut: #a9a195;
+  --display: "Cabinet Grotesk", "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  background: var(--ground); color: var(--ink);
+  font-family: var(--body); font-size: 17px; line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+a { color: var(--amber-lt); }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 4px;
+}
+.mono {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--mut);
+}
+.mono b { color: var(--amber); font-weight: 400; }
+
+/* motion system: hidden only when JS arrives */
+html.has-motion [data-motion-text],
+html.has-motion [data-reveal],
+html.has-motion [data-reveal-item],
+html.has-motion [data-image-reveal] { visibility: hidden; }
+.motion-word-mask { display: inline-block; overflow: hidden; vertical-align: top; }
+.motion-word { display: inline-block; will-change: transform, opacity; }
+[data-image-reveal] { overflow: hidden; }
+
+/* ── nav ──────────────────────────────────────── */
+nav { position: relative; z-index: 5; border-bottom: 1px solid var(--line-soft); }
+nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+nav .mark { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+nav .mark img { width: 34px; height: 34px; border-radius: 9px; display: block; }
+nav .mark span { font-family: var(--display); font-weight: 800; font-size: 17px; color: var(--ink); letter-spacing: 0.01em; }
+nav .links { display: flex; gap: 28px; align-items: center; }
+nav .links a { font-size: 15px; font-weight: 500; color: var(--mut); text-decoration: none; transition: color 160ms ease; }
+@media (hover: hover) and (pointer: fine) { nav .links a:hover { color: var(--ink); } }
+nav .links .yt { color: var(--amber-lt); font-weight: 600; }
+
+/* ── hero ─────────────────────────────────────── */
+.hero { position: relative; overflow: hidden; padding: 96px 0 104px; }
+.hero .glow {
+  position: absolute; width: 1100px; height: 1100px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,150,58,0.10), transparent 62%);
+  top: -320px; right: -320px; pointer-events: none; will-change: transform;
+}
+.hero .rule-v {
+  position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line-soft);
+  left: calc(50% + 172px); pointer-events: none;
+}
+.hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, 1fr); gap: 64px; align-items: center; }
+.hero .kick { margin-bottom: 24px; }
+.hero h1 {
+  font-family: var(--display); font-weight: 900;
+  font-size: clamp(46px, 7.4vw, 84px); line-height: 0.96; letter-spacing: -0.022em;
+  text-wrap: balance; margin-bottom: 24px;
+}
+.hero h1 .em { color: var(--amber); }
+.hero .sub { color: var(--mut); font-size: 19px; max-width: 48ch; margin-bottom: 36px; }
+.cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--body); font-weight: 700; font-size: 16px;
+  padding: 13px 26px; border-radius: 12px; cursor: pointer;
+  text-decoration: none; border: none; will-change: transform;
+  transition: transform 140ms var(--ease-out), background-color 160ms ease, border-color 160ms ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--amber); color: #0f0d0a; }
+.btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover { background: var(--amber-lt); }
+  .btn-ghost:hover { border-color: rgba(242,169,78,0.55); }
+}
+
+.hero .side { position: relative; justify-self: end; }
+.portrait {
+  width: 264px; height: 264px; border-radius: 50%; margin-bottom: 28px;
+  border: 3px solid rgba(242,169,78,0.75); overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(232,150,58,0.10);
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.14); will-change: transform; }
+.meta-cluster { display: grid; gap: 10px; border-top: 1px solid var(--line); padding-top: 18px; max-width: 264px; }
+.meta-cluster .row { display: flex; justify-content: space-between; gap: 16px; }
+
+/* ── sections ─────────────────────────────────── */
+section { padding: 88px 0; border-top: 1px solid var(--line-soft); }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 12px; flex-wrap: wrap; }
+h2 {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(32px, 4.8vw, 46px); letter-spacing: -0.015em; text-wrap: balance;
+}
+.lede { color: var(--mut); max-width: 58ch; margin: 14px 0 40px; }
+
+/* test bench */
+.tools { border-top: 1px solid var(--line); }
+.tool {
+  display: grid; grid-template-columns: 88px minmax(0,1.1fr) minmax(0,1.6fr) auto auto;
+  gap: 8px 28px; align-items: center;
+  padding: 22px 8px; border-bottom: 1px solid var(--line-soft);
+  text-decoration: none; color: var(--ink); position: relative;
+  transition: background-color 200ms ease;
+}
+.tool::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: var(--amber); transform: scaleX(0); transform-origin: left center;
+  transition: transform 350ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tool:hover { background: rgba(242,169,78,0.04); }
+  .tool:hover::after { transform: scaleX(1); }
+}
+.tool .id { font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; color: var(--mut); }
+.tool .nm { font-family: var(--display); font-weight: 800; font-size: 21px; letter-spacing: -0.01em; }
+.tool .cat { color: var(--mut); font-size: 15px; }
+.tool .price { font-family: var(--mono); font-size: 14px; color: var(--amber-lt); white-space: nowrap; }
+.chip {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 5px 13px; border-radius: 20px; white-space: nowrap; justify-self: end;
+  background: rgba(242,169,78,0.12); color: var(--amber-lt); border: 1px solid rgba(242,169,78,0.35);
+}
+.tools-note { margin-top: 22px; color: var(--mut); font-size: 15px; }
+
+/* protocol band */
+.protocol { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.protocol .band { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.4fr); gap: 56px; align-items: start; }
+.steps { display: grid; border-top: 1px solid var(--line); }
+.step { display: grid; grid-template-columns: 72px 1fr; gap: 24px; padding: 22px 4px; border-bottom: 1px solid var(--line-soft); }
+.step .n { font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; color: var(--amber); padding-top: 4px; }
+.step h3 { font-family: var(--display); font-weight: 800; font-size: 19px; margin-bottom: 4px; }
+.step p { color: var(--mut); font-size: 15.5px; max-width: 48ch; }
+
+/* email */
+.signup {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 18px;
+  padding: 48px; position: relative; overflow: hidden;
+}
+.signup .corner { position: absolute; top: 18px; right: 22px; }
+.signup h2 { margin-bottom: 8px; }
+.signup .why { color: var(--mut); max-width: 54ch; margin-bottom: 24px; }
+.signup form { display: flex; gap: 12px; flex-wrap: wrap; }
+.signup input[type=email] {
+  flex: 1; min-width: 240px; font-family: var(--body); font-size: 16px;
+  padding: 12px 16px; border-radius: 12px; color: var(--ink);
+  background: var(--ground); border: 1px solid var(--line);
+  transition: border-color 160ms ease;
+}
+.signup input[type=email]:focus { border-color: rgba(242,169,78,0.6); outline: none; }
+.signup .fine { font-size: 13.5px; color: var(--mut); margin-top: 12px; }
+
+/* consulting */
+.contact { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 40px; }
+.contact .fields { display: grid; gap: 20px 24px; margin-bottom: 24px; }
+.contact label { display: grid; gap: 8px; font-size: 14px; font-weight: 600; color: var(--mut); }
+.contact label.full { grid-column: 1 / -1; }
+.contact .fields { grid-template-columns: 1fr 1fr 1fr; }
+.contact input, .contact textarea, .contact select {
+  font-family: var(--body); font-size: 16px; color: var(--ink);
+  padding: 12px 16px; border-radius: 12px;
+  background: var(--ground); border: 1px solid var(--line);
+  transition: border-color 160ms ease; resize: vertical;
+}
+.contact select { appearance: none; }
+.contact input:focus, .contact textarea:focus, .contact select:focus { border-color: rgba(242,169,78,0.6); outline: none; }
+.send-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.form-note { font-size: 11.5px; }
+.form-status { margin-top: 16px; font-size: 15px; min-height: 1.4em; }
+.form-status.ok { color: #6fcf7f; }
+.form-status.err { color: #f07a6a; }
+@media (max-width: 860px) {
+  .contact { padding: 28px; }
+  .contact .fields { grid-template-columns: 1fr !important; }
+}
+
+/* about */
+.about p { max-width: 62ch; margin-bottom: 16px; }
+.about .accent {
+  font-family: var(--display); font-weight: 800; font-size: clamp(22px, 3vw, 27px);
+  line-height: 1.35; letter-spacing: -0.01em; color: var(--ink);
+  margin: 28px 0; max-width: 28ch; text-wrap: balance;
+}
+.about .accent em { font-style: normal; color: var(--amber); }
+
+/* footer */
+footer { border-top: 1px solid var(--line-soft); padding: 48px 0 0; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 56px; }
+footer .links { display: flex; gap: 24px; }
+footer a { color: var(--mut); text-decoration: none; font-size: 15px; transition: color 150ms ease; }
+@media (hover: hover) and (pointer: fine) { footer a:hover { color: var(--amber-lt); } }
+footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 40%, rgba(255,194,94,0.15)); }
+
+@media (max-width: 860px) {
+  .hero .wrap { grid-template-columns: 1fr; gap: 44px; }
+  .hero .side { justify-self: start; }
+  .hero .rule-v { display: none; }
+  .protocol .band { grid-template-columns: 1fr; gap: 32px; }
+  .tool { grid-template-columns: 64px 1fr auto; }
+  .tool .cat { grid-column: 2 / -1; }
+  .tool .chip { display: none; }
+  .signup { padding: 32px; }
+  nav .links a:not(.yt) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tool::after, .btn, .tool { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="mark" href="#top"><img src="favicon.png" alt=""><span>Garrett Johnson</span></a>
+    <div class="links">
+      <a href="#tools">The test bench</a>
+      <a href="#protocol">The protocol</a>
+      <a href="#contact">Contact</a>
+      <a class="yt" href="https://www.youtube.com/@GarrettJohnsonAI">YouTube ↗</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="glow" data-drift></div>
+  <div class="rule-v"></div>
+  <div class="wrap">
+    <div>
+      <p class="mono kick" data-reveal="fade-up"><b>Test log</b> · AI for business owners · No sponsor sets a verdict</p>
+      <h1 data-motion-text="words">I test AI tools so <span class="em">your business</span> doesn't pay to find out.</h1>
+      <p class="sub" data-reveal="fade-up">I'm Garrett. I build AI products for a Fortune 500 finance company by day. Here, I sign up for the tools small business owners keep hearing about, run them for real, and tell you what works, what it costs, and what to skip.</p>
+      <div class="cta-row" data-reveal="fade-up">
+        <a class="btn btn-primary" data-magnetic href="https://www.youtube.com/@GarrettJohnsonAI">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="currentColor" aria-hidden="true"><path d="M19.6 2.2A2.5 2.5 0 0 0 17.8.4C16.2 0 10 0 10 0S3.8 0 2.2.4A2.5 2.5 0 0 0 .4 2.2 26 26 0 0 0 0 7a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 20 7a26 26 0 0 0-.4-4.8ZM8 10V4l5.2 3L8 10Z"/></svg>
+          Watch on YouTube
+        </a>
+        <a class="btn btn-ghost" data-magnetic href="#tools">See the tools</a>
+      </div>
+    </div>
+    <div class="side">
+      <figure class="portrait" data-image-reveal data-parallax-section>
+        <img src="headshot.png" alt="Garrett Johnson" data-parallax-image data-parallax-speed="0.02">
+      </figure>
+      <div class="meta-cluster" data-reveal="fade-up">
+        <div class="row mono"><span>Active tests</span><b>05</b></div>
+        <div class="row mono"><span>Category</span><b>AI receptionists</b></div>
+        <div class="row mono"><span>Price band</span><b>$25 to $199/mo</b></div>
+        <div class="row mono"><span>Verdicts bought</span><b>Zero</b></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="tools">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-motion-text="words">The test bench</h2>
+      <span class="mono" data-reveal="fade-up">Batch 001 · AI receptionists</span>
+    </div>
+    <p class="lede" data-reveal="fade-up">Every tool gets the same treatment. I set it up myself, run it against a real scenario, try to break it, and publish the verdict with real numbers. Nothing appears here that I haven't personally opened.</p>
+    <div class="tools" data-reveal-group>
+      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
+        <span class="id">T-001</span><span class="nm">AIRA</span>
+        <span class="cat">AI receptionist. The budget option, English and Spanish.</span>
+        <span class="price">$24.95/mo</span><span class="chip">In testing</span>
+      </a>
+      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
+        <span class="id">T-002</span><span class="nm">My AI Front Desk</span>
+        <span class="cat">Built around appointment booking.</span>
+        <span class="price">$49/mo</span><span class="chip">In testing</span>
+      </a>
+      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
+        <span class="id">T-003</span><span class="nm">Trillet</span>
+        <span class="cat">Answers calls, texts, and WhatsApp.</span>
+        <span class="price">$49/mo</span><span class="chip">In testing</span>
+      </a>
+      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
+        <span class="id">T-004</span><span class="nm">Smith.ai</span>
+        <span class="cat">AI with real humans as the backstop.</span>
+        <span class="price">$95/mo</span><span class="chip">In testing</span>
+      </a>
+      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
+        <span class="id">T-005</span><span class="nm">NextPhone</span>
+        <span class="cat">Flat rate. Claims 90 to 95 percent resolution.</span>
+        <span class="price">$199/mo</span><span class="chip">In testing</span>
+      </a>
+    </div>
+    <p class="tools-note" data-reveal="fade-up">Verdicts land here as each video publishes. Next batch: AI bookkeeping, chatbots, and no-code automation.</p>
+  </div>
+</section>
+
+<section class="protocol" id="protocol">
+  <div class="wrap band">
+    <div>
+      <p class="mono" data-reveal="fade-up" style="margin-bottom:16px"><b>The protocol</b> · Identical for every tool</p>
+      <h2 data-motion-text="words">Same business. Same four calls. No favorites.</h2>
+      <p class="lede" data-reveal="fade-up" style="margin-bottom:0">Each tool is configured with the same fictional plumbing company: same hours, same prices, same instructions. Then it takes the same four calls, recorded, including one designed to break it.</p>
+    </div>
+    <div class="steps" data-reveal-group>
+      <div class="step" data-reveal-item>
+        <span class="n">CALL 01</span>
+        <div><h3>The easy one</h3><p>Hours and service area. If a tool fumbles this, the test is over early.</p></div>
+      </div>
+      <div class="step" data-reveal-item>
+        <span class="n">CALL 02</span>
+        <div><h3>The booking</h3><p>A leaking water heater and a request for tomorrow morning. Does a real appointment show up?</p></div>
+      </div>
+      <div class="step" data-reveal-item>
+        <span class="n">CALL 03</span>
+        <div><h3>The curveball</h3><p>Interruptions, a changed mind, a price question out of nowhere. The rude-customer simulation.</p></div>
+      </div>
+      <div class="step" data-reveal-item>
+        <span class="n">CALL 04</span>
+        <div><h3>The emergency</h3><p>Water everywhere, right now. Does it recognize urgency or read a script?</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="signup" data-reveal="scale">
+      <span class="corner mono">No spam · No course funnel</span>
+      <p class="mono" style="margin-bottom:14px"><b>One email a week</b></p>
+      <h2>Get the verdict before you get the invoice.</h2>
+      <p class="why">Each week I send what I tested, what it actually costs, and whether it's worth it, in about three minutes of reading. Unsubscribe any time.</p>
+      <!-- Wire this to your email provider: replace action with your Kit (ConvertKit) form URL -->
+      <form id="newsletter-form" novalidate>
+        <input type="email" name="email" required placeholder="you@yourbusiness.com" aria-label="Email address">
+        <button class="btn btn-primary" data-magnetic type="submit">Send me the verdicts</button>
+      </form>
+      <p class="form-status" role="status" aria-live="polite"></p>
+      <p class="fine">I only email when I've tested something. Some weeks that's one tool. That's the point.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-motion-text="words">Get in touch</h2>
+      <span class="mono" data-reveal="fade-up">Read by a human · Replies within two days</span>
+    </div>
+    <p class="lede" data-reveal="fade-up">Sponsorships, partnerships, press, or a question about a tool I tested. One form for all of it. If a pitch needs channel numbers, say so and I'll send current ones.</p>
+    <div class="contact" data-reveal="scale">
+      <form id="contact-form" novalidate>
+        <div class="fields">
+          <label>Name<input type="text" name="name" required autocomplete="name"></label>
+          <label>Email<input type="email" name="email" required autocomplete="email"></label>
+          <label>What's this about?
+            <select name="topic">
+              <option>Sponsorship or partnership</option>
+              <option>Question or feedback</option>
+              <option>Something else</option>
+            </select>
+          </label>
+          <label class="full">Your message<textarea name="message" rows="4" required></textarea></label>
+        </div>
+        <div class="send-row">
+          <button class="btn btn-primary" data-magnetic type="submit">Send it</button>
+          <span class="mono form-note">Sponsor note: a placement never buys a verdict.</span>
+        </div>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="wrap">
+    <p class="mono" data-reveal="fade-up" style="margin-bottom:16px"><b>About</b></p>
+    <h2 data-motion-text="words">Why trust a stranger on the internet?</h2>
+    <p data-reveal="fade-up" style="margin-top:24px">Fair question. Most advice about AI for small business is written by people selling AI to small business. The roundups are affiliate bait, and the "reviews" are of tools the writer never opened.</p>
+    <p class="accent" data-motion-text="words">Evaluating whether software is worth the money is <em>my actual job.</em> This channel is my own thing, and nobody pays me to like their tool.</p>
+    <p data-reveal="fade-up">By day I'm a product manager building AI products for a Fortune 500 finance company. That job is where the testing discipline comes from.</p>
+    <p data-reveal="fade-up">Some links on this site are affiliate links. They cost you nothing, and they only exist for tools I tested on camera and would recommend to a friend who owns a business. When a tool isn't worth it, that's the video.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="mono">© 2026 Garrett Johnson · Tested by hand</span>
+    <div class="links">
+      <a href="https://www.youtube.com/@GarrettJohnsonAI">YouTube</a>
+      <a href="https://www.tiktok.com/@GarrettJohnsonAI">TikTok</a>
+      <a href="#contact">Contact</a>
+      <a href="mailto:garrettjohnsonai@gmail.com">Email</a>
+    </div>
+  </div>
+  <div class="base"></div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script>
+(function () {
+  if (!window.gsap || !window.ScrollTrigger) return; // no JS or blocked scripts: static page stays complete
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.defaults({ ease: "power3.out", duration: 0.85 });
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  // Lenis: the sole smooth-scroll engine. Bypassed entirely under reduced motion.
+  var lenis = null;
+  if (!reduceMotion && window.Lenis) {
+    lenis = new Lenis({ lerp: 0.08, smoothWheel: true, wheelMultiplier: 0.9, anchors: true });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  if (reduceMotion) {
+    // final states immediately; no hiding class, no scrubbed timelines
+    return;
+  }
+
+  document.documentElement.classList.add("has-motion");
+
+  function splitWords(el) {
+    if (el.dataset.motionSplit === "true") return;
+    el.setAttribute("aria-label", (el.textContent || "").trim());
+    var nodes = Array.prototype.slice.call(el.childNodes);
+    el.textContent = "";
+    nodes.forEach(function (node) {
+      var cls = node.nodeType === 1 ? node.className : null;
+      var text = node.textContent || "";
+      text.split(/(\s+)/).forEach(function (part) {
+        if (!part) return;
+        if (!part.trim()) { el.appendChild(document.createTextNode(part)); return; }
+        var mask = document.createElement("span");
+        var word = document.createElement("span");
+        mask.className = "motion-word-mask";
+        mask.setAttribute("aria-hidden", "true");
+        word.className = "motion-word" + (cls ? " " + cls : "");
+        word.textContent = part;
+        mask.appendChild(word);
+        el.appendChild(mask);
+      });
+    });
+    el.dataset.motionSplit = "true";
+  }
+
+  // Hero intro: composed sequence. Transform and opacity only; CTAs usable throughout.
+  var heroH1 = document.querySelector(".hero [data-motion-text='words']");
+  splitWords(heroH1);
+  gsap.set(heroH1, { autoAlpha: 1 });
+  gsap.timeline()
+    .fromTo(".hero .kick", { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7 }, 0.05)
+    .fromTo(heroH1.querySelectorAll(".motion-word"),
+      { yPercent: 110, autoAlpha: 0 },
+      { yPercent: 0, autoAlpha: 1, duration: 0.9, ease: "power4.out", stagger: 0.05 }, 0.15)
+    .fromTo(".hero .sub", { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8 }, 0.62)
+    .fromTo(".hero .cta-row", { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8 }, 0.74)
+    .fromTo(".hero .portrait",
+      { clipPath: "inset(0 0 100% 0)", autoAlpha: 1 },
+      { clipPath: "inset(0 0 0% 0)", duration: 1.1, ease: "power4.out" }, 0.35)
+    .fromTo(".hero .portrait img", { scale: 1.28 }, { scale: 1.14, duration: 1.2, ease: "power4.out" }, 0.35)
+    .fromTo(".hero .meta-cluster", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8 }, 0.9);
+  gsap.set(".hero [data-reveal], .hero [data-image-reveal]", { visibility: "visible" });
+
+  // Scroll: masked word reveals on section headings
+  gsap.utils.toArray("section [data-motion-text='words']").forEach(function (el) {
+    splitWords(el);
+    gsap.set(el, { autoAlpha: 1 });
+    gsap.fromTo(el.querySelectorAll(".motion-word"),
+      { yPercent: 110, autoAlpha: 0 },
+      { yPercent: 0, autoAlpha: 1, duration: 0.9, ease: "power4.out", stagger: 0.045,
+        scrollTrigger: { trigger: el, start: "top 82%", once: true } });
+  });
+
+  // Reveal groups: test-bench rows and protocol steps
+  gsap.utils.toArray("[data-reveal-group]").forEach(function (group) {
+    var items = group.querySelectorAll("[data-reveal-item]");
+    gsap.set(group, { autoAlpha: 1 });
+    gsap.fromTo(items, { y: 30, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.9, ease: "power4.out", stagger: 0.08,
+        scrollTrigger: { trigger: group, start: "top 82%", once: true } });
+  });
+
+  // Single reveals
+  var presets = {
+    "fade-up": { from: { y: 28, autoAlpha: 0 }, to: { y: 0, autoAlpha: 1 } },
+    "scale": { from: { scale: 0.97, autoAlpha: 0 }, to: { scale: 1, autoAlpha: 1 } }
+  };
+  gsap.utils.toArray("section [data-reveal], footer [data-reveal]").forEach(function (el) {
+    var p = presets[el.dataset.reveal] || presets["fade-up"];
+    gsap.set(el, { autoAlpha: 1 });
+    gsap.fromTo(el, p.from, Object.assign({}, p.to, {
+      duration: 0.9, ease: "power4.out",
+      scrollTrigger: { trigger: el, start: "top 84%", once: true }
+    }));
+  });
+
+  // Calm parallax on the portrait
+  gsap.utils.toArray("[data-parallax-image]").forEach(function (img) {
+    var speed = Number(img.dataset.parallaxSpeed || 0.02);
+    gsap.to(img, {
+      y: function () { return window.innerHeight * speed * -1; },
+      ease: "none",
+      scrollTrigger: { trigger: img.closest("[data-parallax-section]") || img,
+        start: "top bottom", end: "bottom top", scrub: 1.2, invalidateOnRefresh: true }
+    });
+  });
+
+  if (finePointer) {
+    // Glow drifts lazily toward the pointer
+    var glow = document.querySelector("[data-drift]");
+    var gx = gsap.quickTo(glow, "x", { duration: 1.2, ease: "power3.out" });
+    var gy = gsap.quickTo(glow, "y", { duration: 1.2, ease: "power3.out" });
+    document.querySelector(".hero").addEventListener("pointermove", function (e) {
+      gx((e.clientX / window.innerWidth - 0.5) * 70);
+      gy((e.clientY / window.innerHeight - 0.5) * 46);
+    });
+
+    // Magnetic CTAs
+    gsap.utils.toArray("[data-magnetic]").forEach(function (el) {
+      var xTo = gsap.quickTo(el, "x", { duration: 0.45, ease: "power3.out" });
+      var yTo = gsap.quickTo(el, "y", { duration: 0.45, ease: "power3.out" });
+      el.addEventListener("pointermove", function (e) {
+        var r = el.getBoundingClientRect();
+        xTo((e.clientX - r.left - r.width / 2) * 0.18);
+        yTo((e.clientY - r.top - r.height / 2) * 0.22);
+      });
+      el.addEventListener("pointerleave", function () { xTo(0); yTo(0); });
+    });
+  }
+
+  window.addEventListener("load", function () { ScrollTrigger.refresh(); });
+})();
+
+(function () {
+  // Contact form. Set FORM_ENDPOINT to your Formspree URL (see site/README.md).
+  // Until then the form still works: it opens a prefilled email instead.
+  var FORM_ENDPOINT = "";
+  // Newsletter. Until Kit is wired (site/README.md), signups arrive as emails.
+  var nl = document.getElementById("newsletter-form");
+  if (nl) {
+    var nlStatus = nl.parentElement.querySelector(".form-status");
+    nl.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var addr = nl.email.value.trim();
+      if (!addr) {
+        nlStatus.textContent = "Needs your email address.";
+        nlStatus.className = "form-status err";
+        return;
+      }
+      window.location.href = "mailto:garrettjohnsonai@gmail.com?subject=" +
+        encodeURIComponent("Newsletter signup") + "&body=" +
+        encodeURIComponent("Add me to the weekly verdicts list: " + addr);
+      nlStatus.textContent = "Opening your email app. Hit send there and you're on the list.";
+      nlStatus.className = "form-status ok";
+    });
+  }
+
+  var form = document.getElementById("contact-form");
+  if (!form) return;
+  var status = form.querySelector(".form-status");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = form.name.value.trim();
+    var email = form.email.value.trim();
+    var topic = form.topic ? form.topic.value : "Contact";
+    var message = form.message.value.trim();
+    if (!name || !email || !message) {
+      status.textContent = "All three fields, please. The message is the part I actually need.";
+      status.className = "form-status err";
+      return;
+    }
+    if (!FORM_ENDPOINT) {
+      var body = encodeURIComponent(message + "\n\n" + name + "\n" + email);
+      var subject = encodeURIComponent(topic + ": " + name);
+      window.location.href = "mailto:garrettjohnsonai@gmail.com?subject=" + subject + "&body=" + body;
+      status.textContent = "Opening your email app with the message filled in. Hit send there and it's on its way.";
+      status.className = "form-status ok";
+      return;
+    }
+    var btn = form.querySelector("button[type=submit]");
+    btn.disabled = true;
+    status.textContent = "Sending.";
+    status.className = "form-status";
+    fetch(FORM_ENDPOINT, {
+      method: "POST",
+      headers: { "Accept": "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name, email: email, topic: topic, message: message })
+    }).then(function (r) {
+      if (!r.ok) throw new Error("bad status");
+      form.reset();
+      status.textContent = "Got it. I read every message myself and reply within two days.";
+      status.className = "form-status ok";
+    }).catch(function () {
+      status.textContent = "That didn't send. Email me directly instead: garrettjohnsonai@gmail.com";
+      status.className = "form-status err";
+    }).finally(function () { btn.disabled = false; });
+  });
+})();
+</script>
+</body>
+</html>
