@@ -633,7 +633,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
           throw new Error(msg || "rejected");
         }
         nl.reset();
-        setStatus(nlStatus, "You're on the list. Check your inbox to confirm.", "ok");
+        setStatus(nlStatus, "Almost there. Check your email to confirm, including the spam folder.", "ok");
       }).catch(function (err) {
         var known = /invalid/i.test(err && err.message || "");
         setStatus(nlStatus, known
