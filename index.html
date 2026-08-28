@@ -574,7 +574,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
   var CONTACT_ENDPOINT = "https://formspree.io/f/xnpqqrnn";
 
   // Kit, looks like: https://app.kit.com/forms/1234567/subscriptions
-  var NEWSLETTER_ENDPOINT = "";
+  var NEWSLETTER_ENDPOINT = "https://app.kit.com/forms/9856616/subscriptions";
 
   var MAILTO = "garrettjohnsonai@gmail.com";
 
@@ -622,11 +622,23 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
         headers: { "Accept": "application/json" },
         body: data
       }).then(function (r) {
-        if (!r.ok) throw new Error("bad status");
+        // Kit answers 200 even when it rejects the signup, with
+        // status "failed" in the body. Checking r.ok alone would tell
+        // someone they were subscribed when they were not.
+        if (!r.ok) throw new Error("http " + r.status);
+        return r.json();
+      }).then(function (res) {
+        if (!res || res.status !== "success") {
+          var msg = res && res.errors && res.errors.messages && res.errors.messages[0];
+          throw new Error(msg || "rejected");
+        }
         nl.reset();
         setStatus(nlStatus, "You're on the list. Check your inbox to confirm.", "ok");
-      }).catch(function () {
-        setStatus(nlStatus, "That didn't go through. Email me instead: " + MAILTO, "err");
+      }).catch(function (err) {
+        var known = /invalid/i.test(err && err.message || "");
+        setStatus(nlStatus, known
+          ? "Kit didn't accept that address. Try another one."
+          : "That didn't go through. Email me instead: " + MAILTO, "err");
       }).finally(function () { nlBtn.disabled = false; });
     });
   }
