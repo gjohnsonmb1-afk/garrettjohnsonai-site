@@ -356,7 +356,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
       <p class="mono" style="margin-bottom:14px"><b>One email a week</b></p>
       <h2>Get the verdict before you get the invoice.</h2>
       <p class="why">Each week I send what I tested, what it actually costs, and whether it's worth it, in about three minutes of reading. Unsubscribe any time.</p>
-      <!-- Wire this to your email provider: replace action with your Kit (ConvertKit) form URL -->
+      <!-- Wired in the script at the bottom: set NEWSLETTER_ENDPOINT -->
       <form id="newsletter-form" novalidate>
         <input type="email" name="email" required placeholder="you@yourbusiness.com" aria-label="Email address">
         <button class="btn btn-primary" data-magnetic type="submit">Send me the verdicts</button>
@@ -387,6 +387,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
             </select>
           </label>
           <label class="full">Your message<textarea name="message" rows="4" required></textarea></label>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         </div>
         <div class="send-row">
           <button class="btn btn-primary" data-magnetic type="submit">Send it</button>
@@ -562,68 +563,119 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
 })();
 
 (function () {
-  // Contact form. Set FORM_ENDPOINT to your Formspree URL (see site/README.md).
-  // Until then the form still works: it opens a prefilled email instead.
-  var FORM_ENDPOINT = "";
-  // Newsletter. Until Kit is wired (site/README.md), signups arrive as emails.
+  // ───────────────────────────────────────────────────────────────────
+  //  FORM WIRING. Paste two URLs here and both forms go live.
+  //  Steps and where to find each URL: site/README.md
+  //  Leave either blank and that form still works, it opens a
+  //  prefilled email instead of posting. Nothing ever silently fails.
+  // ───────────────────────────────────────────────────────────────────
+
+  // Formspree, looks like: https://formspree.io/f/abcd1234
+  var CONTACT_ENDPOINT = "https://formspree.io/f/xnpqqrnn";
+
+  // Kit, looks like: https://app.kit.com/forms/1234567/subscriptions
+  var NEWSLETTER_ENDPOINT = "";
+
+  var MAILTO = "garrettjohnsonai@gmail.com";
+
+  function setStatus(el, msg, kind) {
+    el.textContent = msg;
+    el.className = "form-status" + (kind ? " " + kind : "");
+  }
+
+  function mailto(subject, body) {
+    window.location.href = "mailto:" + MAILTO +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body);
+  }
+
+  // ── Newsletter (Kit) ───────────────────────────────────────────────
   var nl = document.getElementById("newsletter-form");
   if (nl) {
     var nlStatus = nl.parentElement.querySelector(".form-status");
+    var nlBtn = nl.querySelector("button[type=submit]");
+
     nl.addEventListener("submit", function (e) {
       e.preventDefault();
       var addr = nl.email.value.trim();
-      if (!addr) {
-        nlStatus.textContent = "Needs your email address.";
-        nlStatus.className = "form-status err";
+      if (!addr || addr.indexOf("@") < 1) {
+        setStatus(nlStatus, "That address doesn't look right.", "err");
         return;
       }
-      window.location.href = "mailto:garrettjohnsonai@gmail.com?subject=" +
-        encodeURIComponent("Newsletter signup") + "&body=" +
-        encodeURIComponent("Add me to the weekly verdicts list: " + addr);
-      nlStatus.textContent = "Opening your email app. Hit send there and you're on the list.";
-      nlStatus.className = "form-status ok";
+
+      if (!NEWSLETTER_ENDPOINT) {
+        mailto("Newsletter signup", "Add me to the weekly verdicts list: " + addr);
+        setStatus(nlStatus, "Opening your email app. Hit send there and you're on the list.", "ok");
+        return;
+      }
+
+      nlBtn.disabled = true;
+      setStatus(nlStatus, "Signing you up.", "");
+
+      // Kit expects the field to be named email_address. Naming it
+      // "email" submits fine and quietly saves nothing.
+      var data = new FormData();
+      data.append("email_address", addr);
+
+      fetch(NEWSLETTER_ENDPOINT, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: data
+      }).then(function (r) {
+        if (!r.ok) throw new Error("bad status");
+        nl.reset();
+        setStatus(nlStatus, "You're on the list. Check your inbox to confirm.", "ok");
+      }).catch(function () {
+        setStatus(nlStatus, "That didn't go through. Email me instead: " + MAILTO, "err");
+      }).finally(function () { nlBtn.disabled = false; });
     });
   }
 
+  // ── Contact (Formspree) ────────────────────────────────────────────
   var form = document.getElementById("contact-form");
   if (!form) return;
   var status = form.querySelector(".form-status");
+  var btn = form.querySelector("button[type=submit]");
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+
+    // Honeypot. Bots fill hidden fields, people never see this one.
+    if (form._gotcha && form._gotcha.value) return;
+
     var name = form.name.value.trim();
     var email = form.email.value.trim();
     var topic = form.topic ? form.topic.value : "Contact";
     var message = form.message.value.trim();
+
     if (!name || !email || !message) {
-      status.textContent = "All three fields, please. The message is the part I actually need.";
-      status.className = "form-status err";
+      setStatus(status, "All three fields, please. The message is the part I actually need.", "err");
       return;
     }
-    if (!FORM_ENDPOINT) {
-      var body = encodeURIComponent(message + "\n\n" + name + "\n" + email);
-      var subject = encodeURIComponent(topic + ": " + name);
-      window.location.href = "mailto:garrettjohnsonai@gmail.com?subject=" + subject + "&body=" + body;
-      status.textContent = "Opening your email app with the message filled in. Hit send there and it's on its way.";
-      status.className = "form-status ok";
+    if (email.indexOf("@") < 1) {
+      setStatus(status, "That email address doesn't look right.", "err");
       return;
     }
-    var btn = form.querySelector("button[type=submit]");
+
+    if (!CONTACT_ENDPOINT) {
+      mailto(topic + ": " + name, message + "\n\n" + name + "\n" + email);
+      setStatus(status, "Opening your email app with the message filled in. Hit send there and it's on its way.", "ok");
+      return;
+    }
+
     btn.disabled = true;
-    status.textContent = "Sending.";
-    status.className = "form-status";
-    fetch(FORM_ENDPOINT, {
+    setStatus(status, "Sending.", "");
+
+    fetch(CONTACT_ENDPOINT, {
       method: "POST",
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
       body: JSON.stringify({ name: name, email: email, topic: topic, message: message })
     }).then(function (r) {
       if (!r.ok) throw new Error("bad status");
       form.reset();
-      status.textContent = "Got it. I read every message myself and reply within two days.";
-      status.className = "form-status ok";
+      setStatus(status, "Got it. I read every message myself and reply within two days.", "ok");
     }).catch(function () {
-      status.textContent = "That didn't send. Email me directly instead: garrettjohnsonai@gmail.com";
-      status.className = "form-status err";
+      setStatus(status, "That didn't send. Email me directly instead: " + MAILTO, "err");
     }).finally(function () { btn.disabled = false; });
   });
 })();
