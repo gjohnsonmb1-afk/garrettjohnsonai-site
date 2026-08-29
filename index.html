@@ -167,7 +167,15 @@ h2 {
 .tools-note { margin-top: 22px; color: var(--mut); font-size: 15px; }
 
 /* protocol band */
-.protocol { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.protocol { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+.protocol .wrap { position: relative; z-index: 1; }
+.protocol-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: block; pointer-events: none; z-index: 0;
+  opacity: 0; transition: opacity 1400ms ease;
+}
+.protocol-canvas.is-live { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .protocol-canvas { display: none; } }
 .protocol .band { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.4fr); gap: 56px; align-items: start; }
 .steps { display: grid; border-top: 1px solid var(--line); }
 .step { display: grid; grid-template-columns: 72px 1fr; gap: 24px; padding: 22px 4px; border-bottom: 1px solid var(--line-soft); }
@@ -227,6 +235,61 @@ h2 {
 .about .accent em { font-style: normal; color: var(--amber); }
 
 /* footer */
+/* ---- episode ledger ---- */
+.ep-filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 26px; }
+.ep-filter {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 20px; cursor: pointer;
+  background: transparent; color: var(--mut); border: 1px solid var(--line);
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.ep-filter[aria-pressed="true"] { color: var(--amber-lt); border-color: rgba(242,169,78,0.5); }
+.ep-list { border-top: 1px solid var(--line); }
+.ep { border-bottom: 1px solid var(--line-soft); }
+.ep[hidden] { display: none; }
+.ep-head {
+  width: 100%; display: grid; align-items: center; gap: 6px 24px;
+  grid-template-columns: 92px minmax(0,1fr) auto 16px;
+  padding: 24px 8px; background: none; border: 0; cursor: pointer; text-align: left;
+  font-family: var(--body); color: var(--ink);
+  transition: background-color 200ms ease;
+}
+@media (hover: hover) and (pointer: fine) { .ep-head:hover { background: rgba(242,169,78,0.04); } }
+.ep-id { font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; color: var(--mut); }
+.ep-title { font-family: var(--display); font-weight: 800; font-size: 21px; letter-spacing: -0.01em; }
+.ep-sub { grid-column: 2 / -1; color: var(--mut); font-size: 15px; }
+.ep-tag {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 5px 13px; border-radius: 20px; white-space: nowrap;
+  background: rgba(242,169,78,0.12); color: var(--amber-lt); border: 1px solid rgba(242,169,78,0.35);
+}
+.ep-tag.soon { background: transparent; color: var(--mut); border-color: var(--line); }
+.ep-chev { color: var(--mut); transition: transform 260ms var(--ease-out); }
+.ep-head[aria-expanded="true"] .ep-chev { transform: rotate(180deg); }
+.ep-body { display: none; padding: 0 8px 30px; }
+.ep-body.open { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,1fr); gap: 32px; }
+.ep-notes p { color: var(--mut); font-size: 15.5px; margin-bottom: 16px; }
+.ep-facts { display: grid; gap: 10px; align-content: start; border-top: 1px solid var(--line); padding-top: 16px; }
+.ep-facts .row { display: flex; justify-content: space-between; gap: 16px; }
+.lite { position: relative; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden;
+  background: var(--panel-hi); border: 1px solid var(--line); }
+.lite img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lite-play { position: absolute; inset: 0; display: grid; place-items: center;
+  border: 0; background: none; cursor: pointer; width: 100%; height: 100%; }
+.lite-play span { width: 66px; height: 46px; border-radius: 12px; background: var(--amber);
+  display: grid; place-items: center; transition: transform 160ms var(--ease-out); }
+.lite-play span::after { content: ""; border-left: 15px solid #0f0d0a;
+  border-top: 9px solid transparent; border-bottom: 9px solid transparent; margin-left: 3px; }
+@media (hover: hover) and (pointer: fine) { .lite-play:hover span { transform: scale(1.08); } }
+.lite iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.ep-empty { display: grid; place-items: center; aspect-ratio: 16/9; border-radius: 14px;
+  background: var(--panel-hi); border: 1px dashed var(--line); color: var(--mut);
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
+@media (max-width: 860px) {
+  .ep-head { grid-template-columns: 72px 1fr auto; }
+  .ep-chev { display: none; }
+  .ep-body.open { grid-template-columns: 1fr; }
+}
 footer { border-top: 1px solid var(--line-soft); padding: 48px 0 0; }
 footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 56px; }
 footer .links { display: flex; gap: 24px; }
@@ -256,6 +319,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
   <div class="wrap">
     <a class="mark" href="#top"><img src="avatar.png" alt="" width="34" height="34"><span>Garrett Johnson</span></a>
     <div class="links">
+      <a href="#episodes">The log</a>
       <a href="#tools">The test bench</a>
       <a href="#protocol">The protocol</a>
       <a href="#contact">Contact</a>
@@ -294,6 +358,46 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
     </div>
   </div>
 </header>
+
+<section id="episodes">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-motion-text="words">The log</h2>
+      <span class="mono" data-reveal="fade-up">Every episode, every verdict</span>
+    </div>
+    <p class="lede" data-reveal="fade-up">One row per episode. Open any of them for the setup, the real costs, and what I actually concluded.</p>
+
+    <div class="ep-filters" data-reveal="fade-up" role="group" aria-label="Filter episodes by category">
+      <button class="ep-filter" data-filter="all" aria-pressed="true">All</button>
+      <button class="ep-filter" data-filter="receptionists" aria-pressed="false">AI receptionists</button>
+    </div>
+
+    <div class="ep-list" data-reveal-group>
+      <article class="ep" data-category="receptionists" data-reveal-item>
+        <button class="ep-head" aria-expanded="false" aria-controls="ep-001-body">
+          <span class="ep-id">EP-001</span>
+          <span class="ep-title">Best AI Receptionist for Small Business 2026</span>
+          <span class="ep-tag soon">Coming soon</span>
+          <svg class="ep-chev" width="14" height="9" viewBox="0 0 14 9" fill="none" aria-hidden="true"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span class="ep-sub">Five tools, identical setup, the same four calls. Free to $199/mo.</span>
+        </button>
+        <div class="ep-body" id="ep-001-body" data-video="">
+          <div><div class="ep-empty">Publishing soon</div></div>
+          <div class="ep-notes">
+            <p>Aira, My AI Front Desk, Rosie, Smith.ai, and NextPhone, all set up as the same fictional plumbing company and put through the same four recorded calls, including one built to break them.</p>
+            <div class="ep-facts">
+              <div class="row mono"><span>Tools tested</span><b>05</b></div>
+              <div class="row mono"><span>Price band</span><b>Free to $199/mo</b></div>
+              <div class="row mono"><span>Calls per tool</span><b>04</b></div>
+              <div class="row mono"><span>Verdict</span><b>In testing</b></div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="tools-note" data-reveal="fade-up">The log grows with every episode.</p>
+  </div>
+</section>
 
 <section id="tools">
   <div class="wrap">
@@ -334,6 +438,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
 </section>
 
 <section class="protocol" id="protocol">
+  <canvas id="protocol-canvas" class="protocol-canvas" aria-hidden="true"></canvas>
   <div class="wrap band">
     <div>
       <p class="mono" data-reveal="fade-up" style="margin-bottom:16px"><b>The protocol</b> · Identical for every tool</p>
@@ -461,7 +566,10 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
     s.src = src; s.async = true; s.onload = cb; s.onerror = function () {};
     document.head.appendChild(s);
   }
-  load("vendor/three.min.js", function () { load("hero-grid.js"); });
+  load("vendor/three.min.js", function () {
+    load("hero-grid.js");
+    load("protocol-rings.js");
+  });
 })();
 </script>
 <script>
@@ -599,6 +707,69 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
   }
 
   window.addEventListener("load", function () { ScrollTrigger.refresh(); });
+})();
+
+/* ---- episode ledger: accordion, filters, lite YouTube embed ---------- */
+(function () {
+  var list = document.querySelector(".ep-list");
+  if (!list) return;
+
+  /* Lite embed. The real iframe costs about a megabyte and sets third-party
+     cookies, so we show a poster and only swap it in on click. Without JS the
+     static markup is already a working link to YouTube. */
+  function upgradeMedia(body) {
+    var holder = body.querySelector("[data-video]");
+    if (!holder) return;
+    var id = (holder.getAttribute("data-video") || "").trim();
+    if (!id || holder.dataset.ready === "1") return;
+    holder.dataset.ready = "1";
+
+    var wrap = document.createElement("div");
+    wrap.className = "lite";
+    wrap.innerHTML =
+      '<img src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy">' +
+      '<button class="lite-play" type="button" aria-label="Play video"><span></span></button>';
+    holder.innerHTML = "";
+    holder.appendChild(wrap);
+
+    wrap.querySelector(".lite-play").addEventListener("click", function () {
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+      f.title = "Episode video";
+      f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture";
+      f.allowFullscreen = true;
+      wrap.innerHTML = "";
+      wrap.appendChild(f);
+    });
+  }
+
+  list.addEventListener("click", function (e) {
+    var head = e.target.closest(".ep-head");
+    if (!head) return;
+    var body = document.getElementById(head.getAttribute("aria-controls"));
+    if (!body) return;
+    var open = head.getAttribute("aria-expanded") === "true";
+    head.setAttribute("aria-expanded", open ? "false" : "true");
+    body.classList.toggle("open", !open);
+    if (!open) upgradeMedia(body);
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  });
+
+  /* Filters. Hidden rows use the hidden attribute so they leave the
+     accessibility tree too, not just the layout. */
+  var filters = document.querySelectorAll(".ep-filter");
+  Array.prototype.forEach.call(filters, function (btn) {
+    btn.addEventListener("click", function () {
+      var want = btn.getAttribute("data-filter");
+      Array.prototype.forEach.call(filters, function (b) {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+      Array.prototype.forEach.call(list.querySelectorAll(".ep"), function (ep) {
+        ep.hidden = !(want === "all" || ep.getAttribute("data-category") === want);
+      });
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    });
+  });
 })();
 
 (function () {
