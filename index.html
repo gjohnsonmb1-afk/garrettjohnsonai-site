@@ -241,11 +241,13 @@ h2 {
 .ep-chev { color: var(--mut); transition: transform 260ms var(--ease-out); }
 .ep-head[aria-expanded="true"] .ep-chev { transform: rotate(180deg); }
 .ep-body { display: none; padding: 0 8px 30px; }
-.ep-body.open { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,1fr); gap: 32px; }
+.ep-body.open { display: grid; grid-template-columns: minmax(0,0.85fr) minmax(0,1.15fr); gap: 40px; align-items: start; }
 .ep-notes p { color: var(--mut); font-size: 15.5px; margin-bottom: 16px; }
+.ep-hook { color: var(--ink) !important; font-family: var(--display); font-weight: 800;
+  font-size: 18px; line-height: 1.4; letter-spacing: -0.01em; }
 .ep-roster-h { margin: 4px 0 10px; }
 .ep-roster { list-style: none; margin: 0 0 22px; border-top: 1px solid var(--line); }
-.ep-roster li { display: grid; grid-template-columns: 148px minmax(0,1fr) auto; gap: 8px 18px;
+.ep-roster li { display: grid; grid-template-columns: 132px minmax(0,1fr) auto; gap: 8px 18px;
   align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--line-soft); }
 .ep-roster .rn { font-family: var(--display); font-weight: 800; font-size: 16px; }
 .ep-roster .rd { color: var(--mut); font-size: 14.5px; }
@@ -365,7 +367,9 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
         <div class="ep-body" id="ep-001-body" data-video="">
           <div><div class="ep-empty">Publishing soon</div></div>
           <div class="ep-notes">
-            <p>Aira, My AI Front Desk, Rosie, Smith.ai, and NextPhone, all set up as the same fictional plumbing company and put through the same four recorded calls, including one built to break them.</p>
+            <p>Aira, My AI Front Desk, Rosie, Smith.ai, and NextPhone, every one of them set up as the same fictional plumbing company: same hours, same three service prices, same instruction to answer questions and book jobs.</p>
+            <p>Then the same four recorded calls to each. An easy one about hours and service area. A booking, with a leaking water heater and a request for tomorrow morning. A curveball, where the caller interrupts, changes their mind, and asks the price mid-sentence. And an after-hours emergency.</p>
+            <p class="ep-hook">The cheapest of them is free. The most expensive is $199 a month. Whether that gap shows up on an actual phone call is the entire episode.</p>
             <p class="ep-roster-h mono"><b>On the bench</b></p>
             <ul class="ep-roster">
               <li><span class="rn">AIRA</span><span class="rd">AI receptionist. The budget option, English and Spanish.</span><span class="rp">$24.95/mo</span></li>
@@ -378,7 +382,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
               <div class="row mono"><span>Tools tested</span><b>05</b></div>
               <div class="row mono"><span>Price band</span><b>Free to $199/mo</b></div>
               <div class="row mono"><span>Calls per tool</span><b>04</b></div>
-              <div class="row mono"><span>Verdict</span><b>In testing</b></div>
+              <div class="row mono"><span>Verdict</span><b>Publishing soon</b></div>
             </div>
           </div>
         </div>
@@ -394,25 +398,25 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
   <div class="wrap band">
     <div>
       <p class="mono" data-reveal="fade-up" style="margin-bottom:16px"><b>The protocol</b> · Identical for every tool</p>
-      <h2 data-motion-text="words">Same business. Same four calls. No favorites.</h2>
-      <p class="lede" data-reveal="fade-up" style="margin-bottom:0">Each tool is configured with the same fictional plumbing company: same hours, same prices, same instructions. Then it takes the same four calls, recorded, including one designed to break it.</p>
+      <h2 data-motion-text="words">Same setup. Same tests. No favorites.</h2>
+      <p class="lede" data-reveal="fade-up" style="margin-bottom:0">This is how every episode works, whatever the category. If a tool comes out well here, it earned it.</p>
     </div>
     <div class="steps" data-reveal-group>
       <div class="step" data-reveal-item>
-        <span class="n">CALL 01</span>
-        <div><h3>The easy one</h3><p>Hours and service area. If a tool fumbles this, the test is over early.</p></div>
+        <span class="n">01</span>
+        <div><h3>Identical setup</h3><p>Every tool in an episode is configured as the same fictional business, with the same hours, the same prices, and the same instructions. No tool gets a better brief than another.</p></div>
       </div>
       <div class="step" data-reveal-item>
-        <span class="n">CALL 02</span>
-        <div><h3>The booking</h3><p>A leaking water heater and a request for tomorrow morning. Does a real appointment show up?</p></div>
+        <span class="n">02</span>
+        <div><h3>The same scenarios</h3><p>Each one faces an identical set of scripted situations, run in the same order. At least one of them is designed to break the tool rather than flatter it.</p></div>
       </div>
       <div class="step" data-reveal-item>
-        <span class="n">CALL 03</span>
-        <div><h3>The curveball</h3><p>Interruptions, a changed mind, a price question out of nowhere. The rude-customer simulation.</p></div>
+        <span class="n">03</span>
+        <div><h3>Real money, real math</h3><p>What it costs to sign up, what it costs at your volume, and what the pricing page does not say. If a plan is cheap because it cannot do the job, that goes in the video.</p></div>
       </div>
       <div class="step" data-reveal-item>
-        <span class="n">CALL 04</span>
-        <div><h3>The emergency</h3><p>Water everywhere, right now. Does it recognize urgency or read a script?</p></div>
+        <span class="n">04</span>
+        <div><h3>No vendor input</h3><p>Nobody gets advance notice, a preview, or a say in the outcome. A sponsorship buys a placement and never a verdict.</p></div>
       </div>
     </div>
   </div>
