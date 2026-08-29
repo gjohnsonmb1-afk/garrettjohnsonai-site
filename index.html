@@ -69,7 +69,20 @@ nav .mark span { font-family: var(--display); font-weight: 800; font-size: 17px;
 nav .links { display: flex; gap: 28px; align-items: center; }
 nav .links a { font-size: 15px; font-weight: 500; color: var(--mut); text-decoration: none; transition: color 160ms ease; }
 @media (hover: hover) and (pointer: fine) { nav .links a:hover { color: var(--ink); } }
-nav .links .yt { color: var(--amber-lt); font-weight: 600; }
+nav .links .yt { color: var(--ink); font-weight: 600; display: inline-flex; align-items: center; gap: 7px; }
+.yt-mark { fill: currentColor; flex: none; }
+footer .f-yt { display: inline-flex; align-items: center; gap: 7px; }
+.log-cta { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 26px; }
+.yt-cta {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+  font-family: var(--body); font-weight: 700; font-size: 15px; color: var(--ink);
+  padding: 11px 20px; border-radius: 12px; border: 1px solid var(--line);
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.yt-cta svg { fill: #FF0000; flex: none; }
+@media (hover: hover) and (pointer: fine) {
+  .yt-cta:hover { border-color: rgba(242,169,78,0.55); background: rgba(242,169,78,0.05); }
+}
 
 /* ── hero ─────────────────────────────────────── */
 .hero { position: relative; overflow: hidden; padding: 96px 0 104px; }
@@ -299,6 +312,11 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="yt-mark" viewBox="0 0 24 24">
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+  </symbol>
+</svg>
 <nav>
   <div class="wrap">
     <a class="mark" href="#top"><img src="avatar.png" alt="" width="34" height="34"><span>Garrett Johnson</span></a>
@@ -306,7 +324,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
       <a href="#episodes">The log</a>
       <a href="#protocol">The protocol</a>
       <a href="#contact">Contact</a>
-      <a class="yt" href="https://www.youtube.com/@GarrettJohnsonAI">YouTube ↗</a>
+      <a class="yt" href="https://www.youtube.com/@GarrettJohnsonAI"><svg class="yt-mark" width="20" height="20" aria-hidden="true"><use href="#yt-mark"/></svg>YouTube</a>
     </div>
   </div>
 </nav>
@@ -388,7 +406,13 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
         </div>
       </article>
     </div>
-    <p class="tools-note" data-reveal="fade-up">The log grows with every episode.</p>
+    <div class="log-cta" data-reveal="fade-up">
+      <p class="tools-note" style="margin:0">The log grows with every episode.</p>
+      <a class="yt-cta" href="https://www.youtube.com/@GarrettJohnsonAI">
+        <svg width="22" height="22" aria-hidden="true"><use href="#yt-mark"/></svg>
+        Subscribe on YouTube
+      </a>
+    </div>
   </div>
 </section>
 
@@ -479,7 +503,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
     <p data-reveal="fade-up" style="margin-top:24px">Fair question. Most advice about AI for small business is written by people selling AI to small business. The roundups are affiliate bait, and most "reviews" are assembled from other people's reviews.</p>
     <p class="accent" data-motion-text="words">I set up every tool myself, and <em>nobody pays me to like it.</em></p>
     <p data-reveal="fade-up">By day I'm a product manager building AI products for a Fortune 500 finance company. That job is where the testing discipline comes from. This channel is my own thing, separate from it.</p>
-    <p data-reveal="fade-up">Some links on this site are affiliate links. They cost you nothing, and they only exist for tools I actually set up and would recommend to a friend who owns a business. When a tool isn't worth it, that's the video.</p>
+    <p data-reveal="fade-up">Nobody sponsors this channel and nothing on this page is a paid placement. If that ever changes, it will say so right here, in plain language, before you click anything.</p>
   </div>
 </section>
 
@@ -487,7 +511,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
   <div class="wrap">
     <span class="mono">© 2026 Garrett Johnson · Tested by hand</span>
     <div class="links">
-      <a href="https://www.youtube.com/@GarrettJohnsonAI">YouTube</a>
+      <a class="f-yt" href="https://www.youtube.com/@GarrettJohnsonAI"><svg class="yt-mark" width="17" height="17" aria-hidden="true"><use href="#yt-mark"/></svg>YouTube</a>
       <a href="#contact">Contact</a>
       <a href="mailto:hello@garrettjohnsonai.com">Email</a>
     </div>
