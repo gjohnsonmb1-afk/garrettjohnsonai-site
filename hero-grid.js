@@ -16,6 +16,7 @@
   var EXTENT = SPACING * HALF;
   var DRIFT = 1.9;          // units per second, toward the viewer
 
+  var LITE = !!window.__gjLite;   // phones: fewer particles, lower DPR, softer
   var renderer, scene, camera, gridGroup, dust, clock;
   var running = false, visible = true, inView = true;
   var pointer = { x: 0, y: 0 };   // target, -1..1
@@ -43,7 +44,7 @@
         uColor: { value: new THREE.Color(AMBER) },
         uNear: { value: 30.0 },
         uFar: { value: 118.0 },
-        uOpacity: { value: 0.40 }
+        uOpacity: { value: LITE ? 0.30 : 0.40 }
       },
       vertexShader: [
         "varying float vFade;",
@@ -74,7 +75,7 @@
 
   /* ---- dust ------------------------------------------------------- */
   function buildDust() {
-    var COUNT = 240, pos = new Float32Array(COUNT * 3);
+    var COUNT = LITE ? 80 : 240, pos = new Float32Array(COUNT * 3);
     for (var i = 0; i < COUNT; i++) {
       pos[i * 3]     = (Math.random() - 0.5) * EXTENT * 1.4;
       pos[i * 3 + 1] = Math.random() * 30 + 2.0;
@@ -102,7 +103,7 @@
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h, false);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, LITE ? 1.25 : 1.75));
   }
 
   function frame() {

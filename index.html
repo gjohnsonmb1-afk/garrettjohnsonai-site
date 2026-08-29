@@ -296,7 +296,22 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
 
 @media (max-width: 860px) {
   .hero .wrap { grid-template-columns: 1fr; gap: 44px; }
-  .hero .side { justify-self: start; }
+  /* Centre the portrait block. Left-aligned it read as orphaned under the
+     full-width headline. Body copy stays left aligned for readability. */
+  .hero .side { justify-self: center; }
+  .portrait, .meta-cluster { margin-left: auto; margin-right: auto; }
+  .meta-cluster { width: 100%; max-width: 288px; }
+  /* Sections were carrying desktop headroom on a small screen */
+  section { padding: 56px 0; }
+  .hero { padding: 56px 0 64px; }
+  .contact { padding: 24px; }
+  .contact .fields { gap: 16px; }
+  .sec-head { gap: 6px; margin-bottom: 8px; }
+  .lede { margin: 10px 0 28px; }
+  /* The corner chip sat absolutely at top-right, landing beside the label
+     below it and reading as two misaligned lines. Stack them instead. */
+  .signup { padding: 28px; }
+  .signup .corner { position: static; display: block; margin-bottom: 10px; }
   .hero .rule-v { display: none; }
   .protocol .band { grid-template-columns: 1fr; gap: 32px; }
   .tool { grid-template-columns: 64px 1fr auto; }
@@ -529,9 +544,11 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
 (function () {
   var m = window.matchMedia;
   if (m && m("(prefers-reduced-motion: reduce)").matches) return;
-  if (window.innerWidth < 900) return;
+  if (window.innerWidth < 380) return;              // very small screens still skip
   var c = navigator.connection;
   if (c && (c.saveData || /2g/.test(c.effectiveType || ""))) return;
+  // Phones get a lighter build: fewer particles, lower pixel ratio, hero only.
+  window.__gjLite = window.innerWidth < 900;
 
   try {                                  // cheap probe, then throw the context away
     var t = document.createElement("canvas");
@@ -548,7 +565,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
   }
   load("vendor/three.min.js", function () {
     load("hero-grid.js");
-    load("protocol-rings.js");
+    if (!window.__gjLite) load("protocol-rings.js");   // second canvas is desktop only
   });
 })();
 </script>
@@ -560,6 +577,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var smallScreen = window.innerWidth <= 860;
 
   // Lenis: the sole smooth-scroll engine. Bypassed entirely under reduced motion.
   var lenis = null;
@@ -612,9 +630,12 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
       { yPercent: 0, autoAlpha: 1, duration: 0.9, ease: "power4.out", stagger: 0.05 }, 0.15)
     .fromTo(".hero .sub", { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8 }, 0.62)
     .fromTo(".hero .cta-row", { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8 }, 0.74)
+    /* clip-path reveal on desktop only. On phones a stalled tween left the
+       portrait permanently half-clipped, so there it just fades in. */
     .fromTo(".hero .portrait",
-      { clipPath: "inset(0 0 100% 0)", autoAlpha: 1 },
-      { clipPath: "inset(0 0 0% 0)", duration: 1.1, ease: "power4.out" }, 0.35)
+      smallScreen ? { autoAlpha: 0 } : { clipPath: "inset(0 0 100% 0)", autoAlpha: 1 },
+      smallScreen ? { autoAlpha: 1, duration: 0.8 }
+                  : { clipPath: "inset(0 0 0% 0)", duration: 1.1, ease: "power4.out" }, 0.35)
     .fromTo(".hero .portrait img", { scale: 1.28 }, { scale: 1.14, duration: 1.2, ease: "power4.out" }, 0.35)
     .fromTo(".hero .meta-cluster", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8 }, 0.9);
   gsap.set(".hero [data-reveal], .hero [data-image-reveal]", { visibility: "visible" });
@@ -685,6 +706,17 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
       el.addEventListener("pointerleave", function () { xTo(0); yTo(0); });
     });
   }
+
+  /* Failsafe. If the ticker stalls on a slow device the hero could sit
+     permanently half-revealed, which is exactly what happened on mobile.
+     The hero is fully in by ~1.5s, so force its end state at 2.5s.
+     Scoped to the hero on purpose: the scroll reveals below must stay
+     hidden until they are actually scrolled to. */
+  setTimeout(function () {
+    gsap.set(".hero [data-reveal], .hero [data-motion-text], .hero .motion-word, .hero .portrait", { autoAlpha: 1 });
+    gsap.set(".hero .portrait", { clipPath: "inset(0 0 0% 0)" });
+    gsap.set(".hero .portrait img", { scale: 1.14 });
+  }, 2500);
 
   window.addEventListener("load", function () { ScrollTrigger.refresh(); });
 })();
