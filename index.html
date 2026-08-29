@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Garrett Johnson | AI for Business Owners</title>
-<meta name="description" content="I test AI tools for business owners so you don't have to pay to find out what works. Real setups, real costs, straight answers.">
+<meta name="description" content="AI moves fast. I figure out what actually matters for your business: real tests, real costs, and straight answers about what is worth your money.">
 <meta property="og:title" content="Garrett Johnson | AI for Business Owners">
-<meta property="og:description" content="I test AI tools for small business owners so you don't have to pay to find out what works.">
+<meta property="og:description" content="AI moves fast. I figure out what actually matters for your business.">
 <meta property="og:image" content="https://garrettjohnsonai.com/og.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -244,6 +244,9 @@ h2 {
 }
 @media (hover: hover) and (pointer: fine) { .ep-head:hover { background: rgba(242,169,78,0.04); } }
 .ep-id { font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; color: var(--mut); }
+.ep-type { display: block; font-style: normal; font-size: 10px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--amber); margin-top: 5px; }
+.ep-empty-note { color: var(--mut); font-size: 15px; padding: 26px 8px; }
 .ep-title { font-family: var(--display); font-weight: 800; font-size: 21px; letter-spacing: -0.01em; }
 .ep-sub { grid-column: 2 / -1; color: var(--mut); font-size: 15px; }
 .ep-tag {
@@ -365,8 +368,8 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
   <div class="wrap">
     <div>
       <p class="mono kick" data-reveal="fade-up"><b>AI for business owners</b> · New video every week</p>
-      <h1 data-motion-text="words">I test AI tools so <span class="em">your business</span> doesn't pay to find out.</h1>
-      <p class="sub" data-reveal="fade-up">I'm Garrett. I build AI products for a Fortune 500 finance company by day. Here, I sign up for the tools small business owners keep hearing about, run them for real, and tell you what works, what it costs, and what to skip.</p>
+      <h1 data-motion-text="words">AI moves fast. I figure out what matters for <span class="em">your business</span>.</h1>
+      <p class="sub" data-reveal="fade-up">I'm Garrett. I build AI products for a Fortune 500 finance company by day. Here I test the tools you keep hearing about, break down the launches that are worth your attention, and tell you what to actually do about them.</p>
       <div class="cta-row" data-reveal="fade-up">
         <a class="btn btn-primary" data-magnetic href="https://www.youtube.com/@GarrettJohnsonAI">
           <svg width="20" height="14" viewBox="0 0 20 14" fill="currentColor" aria-hidden="true"><path d="M19.6 2.2A2.5 2.5 0 0 0 17.8.4C16.2 0 10 0 10 0S3.8 0 2.2.4A2.5 2.5 0 0 0 .4 2.2 26 26 0 0 0 0 7a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 20 7a26 26 0 0 0-.4-4.8ZM8 10V4l5.2 3L8 10Z"/></svg>
@@ -399,13 +402,15 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
 
     <div class="ep-filters" data-reveal="fade-up" role="group" aria-label="Filter episodes by category">
       <button class="ep-filter" data-filter="all" aria-pressed="true">All</button>
-      <button class="ep-filter" data-filter="receptionists" aria-pressed="false">AI receptionists</button>
+      <button class="ep-filter" data-filter="test" aria-pressed="false">Tests</button>
+      <button class="ep-filter" data-filter="breakdown" aria-pressed="false">Breakdowns</button>
+      <button class="ep-filter" data-filter="build" aria-pressed="false">Builds</button>
     </div>
 
     <div class="ep-list" data-reveal-group>
-      <article class="ep" data-category="receptionists" data-reveal-item>
+      <article class="ep" data-category="test" data-reveal-item>
         <button class="ep-head" aria-expanded="false" aria-controls="ep-001-body">
-          <span class="ep-id">EP-001</span>
+          <span class="ep-id">EP-001<em class="ep-type">Test</em></span>
           <span class="ep-title">Best AI Receptionist for Small Business 2026</span>
           <span class="ep-tag soon">Coming soon</span>
           <svg class="ep-chev" width="14" height="9" viewBox="0 0 14 9" fill="none" aria-hidden="true"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -435,6 +440,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
         </div>
       </article>
     </div>
+    <p class="ep-empty-note" hidden>Nothing published in that format yet. The first one is coming.</p>
     <div class="log-cta" data-reveal="fade-up">
       <p class="tools-note" style="margin:0">The log grows with every episode.</p>
       <a class="yt-cta" href="https://www.youtube.com/@GarrettJohnsonAI">
@@ -452,7 +458,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
     <div>
       <p class="mono" data-reveal="fade-up" style="margin-bottom:16px"><b>How I test</b> · Identical for every tool</p>
       <h2 data-motion-text="words">Same setup. Same tests. Every time.</h2>
-      <p class="lede" data-reveal="fade-up" style="margin-bottom:0">This is how every episode works, whatever the category. If a tool comes out well here, it earned it.</p>
+      <p class="lede" data-reveal="fade-up" style="margin-bottom:0">Every test on this channel runs the same way, whatever the category. If a tool comes out well, it earned it.</p>
     </div>
     <div class="steps" data-reveal-group>
       <div class="step" data-reveal-item>
@@ -790,9 +796,16 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
       Array.prototype.forEach.call(filters, function (b) {
         b.setAttribute("aria-pressed", b === btn ? "true" : "false");
       });
+      var shown = 0;
       Array.prototype.forEach.call(list.querySelectorAll(".ep"), function (ep) {
-        ep.hidden = !(want === "all" || ep.getAttribute("data-category") === want);
+        var match = (want === "all" || ep.getAttribute("data-category") === want);
+        ep.hidden = !match;
+        if (match) shown++;
       });
+      /* Formats we have not published yet are still listed, so say so rather
+         than showing an empty box. */
+      var empty = document.querySelector(".ep-empty-note");
+      if (empty) empty.hidden = shown > 0;
       if (window.ScrollTrigger) ScrollTrigger.refresh();
     });
   });
