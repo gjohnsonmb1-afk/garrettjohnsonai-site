@@ -138,32 +138,6 @@ h2 {
 .lede { color: var(--mut); max-width: 58ch; margin: 14px 0 40px; }
 
 /* test bench */
-.tools { border-top: 1px solid var(--line); }
-.tool {
-  display: grid; grid-template-columns: 88px minmax(0,1.1fr) minmax(0,1.6fr) auto auto;
-  gap: 8px 28px; align-items: center;
-  padding: 22px 8px; border-bottom: 1px solid var(--line-soft);
-  text-decoration: none; color: var(--ink); position: relative;
-  transition: background-color 200ms ease;
-}
-.tool::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
-  background: var(--amber); transform: scaleX(0); transform-origin: left center;
-  transition: transform 350ms var(--ease-out);
-}
-@media (hover: hover) and (pointer: fine) {
-  .tool:hover { background: rgba(242,169,78,0.04); }
-  .tool:hover::after { transform: scaleX(1); }
-}
-.tool .id { font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; color: var(--mut); }
-.tool .nm { font-family: var(--display); font-weight: 800; font-size: 21px; letter-spacing: -0.01em; }
-.tool .cat { color: var(--mut); font-size: 15px; }
-.tool .price { font-family: var(--mono); font-size: 14px; color: var(--amber-lt); white-space: nowrap; }
-.chip {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 5px 13px; border-radius: 20px; white-space: nowrap; justify-self: end;
-  background: rgba(242,169,78,0.12); color: var(--amber-lt); border: 1px solid rgba(242,169,78,0.35);
-}
 .tools-note { margin-top: 22px; color: var(--mut); font-size: 15px; }
 
 /* protocol band */
@@ -269,6 +243,14 @@ h2 {
 .ep-body { display: none; padding: 0 8px 30px; }
 .ep-body.open { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,1fr); gap: 32px; }
 .ep-notes p { color: var(--mut); font-size: 15.5px; margin-bottom: 16px; }
+.ep-roster-h { margin: 4px 0 10px; }
+.ep-roster { list-style: none; margin: 0 0 22px; border-top: 1px solid var(--line); }
+.ep-roster li { display: grid; grid-template-columns: 148px minmax(0,1fr) auto; gap: 8px 18px;
+  align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--line-soft); }
+.ep-roster .rn { font-family: var(--display); font-weight: 800; font-size: 16px; }
+.ep-roster .rd { color: var(--mut); font-size: 14.5px; }
+.ep-roster .rp { font-family: var(--mono); font-size: 13px; color: var(--amber-lt); white-space: nowrap; }
+@media (max-width: 860px) { .ep-roster li { grid-template-columns: 1fr auto; } .ep-roster .rd { grid-column: 1 / -1; } }
 .ep-facts { display: grid; gap: 10px; align-content: start; border-top: 1px solid var(--line); padding-top: 16px; }
 .ep-facts .row { display: flex; justify-content: space-between; gap: 16px; }
 .lite { position: relative; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden;
@@ -320,7 +302,6 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
     <a class="mark" href="#top"><img src="avatar.png" alt="" width="34" height="34"><span>Garrett Johnson</span></a>
     <div class="links">
       <a href="#episodes">The log</a>
-      <a href="#tools">The test bench</a>
       <a href="#protocol">The protocol</a>
       <a href="#contact">Contact</a>
       <a class="yt" href="https://www.youtube.com/@GarrettJohnsonAI">YouTube ↗</a>
@@ -342,7 +323,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
           <svg width="20" height="14" viewBox="0 0 20 14" fill="currentColor" aria-hidden="true"><path d="M19.6 2.2A2.5 2.5 0 0 0 17.8.4C16.2 0 10 0 10 0S3.8 0 2.2.4A2.5 2.5 0 0 0 .4 2.2 26 26 0 0 0 0 7a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 20 7a26 26 0 0 0-.4-4.8ZM8 10V4l5.2 3L8 10Z"/></svg>
           Watch on YouTube
         </a>
-        <a class="btn btn-ghost" data-magnetic href="#tools">See the tools</a>
+        <a class="btn btn-ghost" data-magnetic href="#episodes">See the log</a>
       </div>
     </div>
     <div class="side">
@@ -365,7 +346,7 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
       <h2 data-motion-text="words">The log</h2>
       <span class="mono" data-reveal="fade-up">Every episode, every verdict</span>
     </div>
-    <p class="lede" data-reveal="fade-up">One row per episode. Open any of them for the setup, the real costs, and what I actually concluded.</p>
+    <p class="lede" data-reveal="fade-up">One row per episode. Open any of them for the tools on the bench, the real costs, and what I actually concluded. Nothing appears here that I have not personally set up and tried to break.</p>
 
     <div class="ep-filters" data-reveal="fade-up" role="group" aria-label="Filter episodes by category">
       <button class="ep-filter" data-filter="all" aria-pressed="true">All</button>
@@ -385,6 +366,14 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
           <div><div class="ep-empty">Publishing soon</div></div>
           <div class="ep-notes">
             <p>Aira, My AI Front Desk, Rosie, Smith.ai, and NextPhone, all set up as the same fictional plumbing company and put through the same four recorded calls, including one built to break them.</p>
+            <p class="ep-roster-h mono"><b>On the bench</b></p>
+            <ul class="ep-roster">
+              <li><span class="rn">AIRA</span><span class="rd">AI receptionist. The budget option, English and Spanish.</span><span class="rp">$24.95/mo</span></li>
+              <li><span class="rn">My AI Front Desk</span><span class="rd">Built around appointment booking.</span><span class="rp">$99/mo</span></li>
+              <li><span class="rn">Rosie</span><span class="rd">Trains itself on your website. 250 minutes.</span><span class="rp">$49/mo</span></li>
+              <li><span class="rn">Smith.ai</span><span class="rd">Free AI plan, 25 calls. Humans cost extra.</span><span class="rp">Free</span></li>
+              <li><span class="rn">NextPhone</span><span class="rd">Flat rate. Claims 90 to 95 percent resolution.</span><span class="rp">$199/mo</span></li>
+            </ul>
             <div class="ep-facts">
               <div class="row mono"><span>Tools tested</span><b>05</b></div>
               <div class="row mono"><span>Price band</span><b>Free to $199/mo</b></div>
@@ -399,43 +388,6 @@ footer .base { height: 4px; background: linear-gradient(90deg, #e8963a, #ffc25e 
   </div>
 </section>
 
-<section id="tools">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 data-motion-text="words">The test bench</h2>
-      <span class="mono" data-reveal="fade-up">Batch 001 · AI receptionists</span>
-    </div>
-    <p class="lede" data-reveal="fade-up">Every tool gets the same treatment. I set it up myself, run it against a real scenario, try to break it, and publish the verdict with real numbers. Nothing appears here that I haven't personally opened.</p>
-    <div class="tools" data-reveal-group>
-      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
-        <span class="id">T-001</span><span class="nm">AIRA</span>
-        <span class="cat">AI receptionist. The budget option, English and Spanish.</span>
-        <span class="price">$24.95/mo</span><span class="chip">In testing</span>
-      </a>
-      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
-        <span class="id">T-002</span><span class="nm">My AI Front Desk</span>
-        <span class="cat">Built around appointment booking.</span>
-        <span class="price">$99/mo</span><span class="chip">In testing</span>
-      </a>
-      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
-        <span class="id">T-003</span><span class="nm">Rosie</span>
-        <span class="cat">Trains itself on your website. 250 minutes.</span>
-        <span class="price">$49/mo</span><span class="chip">In testing</span>
-      </a>
-      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
-        <span class="id">T-004</span><span class="nm">Smith.ai</span>
-        <span class="cat">Free AI plan, 25 calls. Humans cost extra.</span>
-        <span class="price">Free</span><span class="chip">In testing</span>
-      </a>
-      <a class="tool" data-reveal-item href="https://www.youtube.com/@GarrettJohnsonAI">
-        <span class="id">T-005</span><span class="nm">NextPhone</span>
-        <span class="cat">Flat rate. Claims 90 to 95 percent resolution.</span>
-        <span class="price">$199/mo</span><span class="chip">In testing</span>
-      </a>
-    </div>
-    <p class="tools-note" data-reveal="fade-up">Verdicts land here as each video publishes. Next batch: AI bookkeeping, chatbots, and no-code automation.</p>
-  </div>
-</section>
 
 <section class="protocol" id="protocol">
   <canvas id="protocol-canvas" class="protocol-canvas" aria-hidden="true"></canvas>
