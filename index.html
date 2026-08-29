@@ -283,9 +283,20 @@ h2 {
   background: var(--panel-hi); border: 1px dashed var(--line); color: var(--mut);
   font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
 @media (max-width: 860px) {
-  .ep-head { grid-template-columns: 72px 1fr auto; }
+  /* Chip beside a wrapping title squeezed it to three lines. Give the
+     title the full width and drop the chip onto its own row. */
+  .ep-head { grid-template-columns: 68px 1fr; row-gap: 7px; padding: 20px 8px; }
+  .ep-id    { grid-column: 1; grid-row: 1; }
+  .ep-title { grid-column: 2; grid-row: 1; font-size: 19px; }
+  .ep-sub   { grid-column: 2; grid-row: 2; }
+  .ep-tag   { grid-column: 2; grid-row: 3; justify-self: start; }
   .ep-chev { display: none; }
   .ep-body.open { grid-template-columns: 1fr; }
+  /* Note and CTA were stacked tight and left-aligned, so the button read
+     as an orphan rather than the action of the section. */
+  .log-cta { flex-direction: column; align-items: stretch; gap: 18px; margin-top: 26px; }
+  .log-cta .tools-note { text-align: center; margin: 0; }
+  .yt-cta { width: 100%; justify-content: center; padding: 15px 20px; }
 }
 footer { border-top: 1px solid var(--line-soft); padding: 48px 0 0; }
 footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 56px; }
